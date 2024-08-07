@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
 
-const ActionButtons = () => {
+const ActionButtons = ({ handleSearch }) => {
   return (
     <>
       <Grid item xs={12} sm={12} md={2}>
-        <Button variant="contained" color="primary" fullWidth sx={{ marginRight: 1 }}>
+        <Button variant="contained" color="primary" fullWidth sx={{ marginRight: 1 }} onClick={handleSearch}>
           Search
         </Button>
       </Grid>
