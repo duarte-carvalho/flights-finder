@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Header from "../components/Header/Header";
+import FlightOptions from '../components/FlightOptions/FlightOptions';
 import { Container } from '@mui/material';
+import { fetchSearchResults } from '../utils/api';
 
 const Home = () => {
     const [from, setFrom] = useState('');
@@ -10,8 +12,9 @@ const Home = () => {
     const [searchResults, setSearchResults] = useState([]);
 
     const handleSearch = async () => {
+        const results = await fetchSearchResults(from, to, departureDate, returnDate);
+        setSearchResults(results);
     };
-
 
     return (
         <Container>
@@ -26,6 +29,7 @@ const Home = () => {
                 setReturnDate={setReturnDate}
                 handleSearch={handleSearch}
             />
+            <FlightOptions departureFlights={searchResults} arrivalFlights={searchResults} />
         </Container>
     );
 };
