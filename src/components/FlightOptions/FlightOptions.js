@@ -30,7 +30,8 @@ const FlightOptions = ({ departureFlights, arrivalFlights }) => {
             <Grid item xs={12}>
               {result.flights.map((flight, idx) => (
                 <React.Fragment key={idx}>
-                  <Grid container spacing={2} alignItems="center" textAlign={'left'} sx={{ mb: 2 }}>
+                  {/* Horizontal layout for xl and above */}
+                  <Grid container spacing={2} alignItems="center" textAlign={'left'} sx={{ mb: 2, display: { xs: 'none', xl: 'flex' } }}>
                     <Grid item xs={1} sx={{ textAlign: 'center' }}>
                       <Avatar alt={flight.airline} src={flight.airline_logo} sx={{ width: 40, height: 40, margin: 'auto' }} />
                     </Grid>
@@ -65,8 +66,45 @@ const FlightOptions = ({ departureFlights, arrivalFlights }) => {
                       </Typography>
                     </Grid>
                   </Grid>
-                  {idx < result.flights.length - 1 && result.layovers[idx] && (
+
+                  {/* Vertical layout for xs, sm, md, lg (logos removed and layovers hidden in main view) */}
+                  <Grid container spacing={2} sx={{ mb: 2, display: { xs: 'block', xl: 'none' } }}>
                     <Grid item xs={12} sx={{ mb: 2 }}>
+                      <Typography variant="body1" component="div" noWrap>
+                        <Box fontWeight="fontWeightBold" display="inline">
+                          {new Date(flight.departure_airport.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </Box>{' '} - {' '}
+                        <Box component="span" sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'bottom' }}>
+                          {truncateAirportName(flight.departure_airport.name)}
+                        </Box>
+                        {' '}({flight.departure_airport.id})
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sx={{ textAlign: 'center', my: 2 }}>
+                      <FlightTakeoff sx={{ fontSize: 18 }} />
+                    </Grid>
+                    <Grid item xs={12} sx={{ mb: 2 }}>
+                      <Typography variant="body1" component="div" noWrap>
+                        <Box fontWeight="fontWeightBold" display="inline">
+                          {new Date(flight.arrival_airport.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </Box>{' '} - {' '}
+                        <Box component="span" sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'bottom' }}>
+                          {truncateAirportName(flight.arrival_airport.name)}
+                        </Box>
+                        {' '}({flight.arrival_airport.id})
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} sx={{ textAlign: 'center', mt: 2 }}>
+                      <Typography variant="body2" color="textSecondary">
+                        {Math.floor(flight.duration / 60)} hr {flight.duration % 60} min
+                      </Typography>
+                    </Grid>
+                    {idx < result.flights.length - 1 && (<Divider sx={{ mt: 4, mb: 4 }} orientation="horizontal" flexItem />)}
+                  </Grid>
+
+                  {/* Layovers will only be displayed in xl and above in the main view */}
+                  {idx < result.flights.length - 1 && result.layovers[idx] && (
+                    <Grid item xs={12} sx={{ mt: 4, mb: 4, display: { xs: 'none', xl: 'block' } }}>
                       <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', mt: 2 }}>
                         Layover: {result.layovers[idx]?.name} ({result.layovers[idx]?.duration} min)
                       </Typography>
@@ -94,8 +132,9 @@ const FlightOptions = ({ departureFlights, arrivalFlights }) => {
                     <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
                       {flight.extensions.join(', ')}
                     </Typography>
+                    {/* Layovers in expanded view will be displayed in all breakpoints */}
                     {idx < result.flights.length - 1 && result.layovers[idx] && (
-                      <Box mt={2}>
+                      <Box mt={4}>
                         <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center' }}>
                           Layover: {result.layovers[idx]?.name} ({result.layovers[idx]?.duration} min)
                         </Typography>
@@ -123,7 +162,7 @@ const FlightOptions = ({ departureFlights, arrivalFlights }) => {
       </Card>
     ))
   );
-
+  
   return (
     <Box>
       {(departureFlights.length > 0 || arrivalFlights.length > 0) && (

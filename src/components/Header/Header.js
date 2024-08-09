@@ -3,7 +3,7 @@ import LocationInput from './LocationInput';
 import DatePickerInput from './DatePickerInput';
 import ActionButtons from './ActionButtons';
 
-const Header = ({ from, setFrom, to, setTo, departureDate, setDepartureDate, returnDate, setReturnDate, handleSearch }) => {
+const Header = ({ from, setFrom, to, setTo, departureDate, setDepartureDate, returnDate, setReturnDate, handleSearch, handleApplyFilters }) => {
   return (
     <Box sx={{ padding: 10 }}>
       <Typography variant="h3" sx={{ marginBottom: 2 }}>Flights</Typography>
@@ -39,7 +39,7 @@ const Header = ({ from, setFrom, to, setTo, departureDate, setDepartureDate, ret
               onChange={setReturnDate}
             />
           </Grid>
-          <ActionButtons handleSearch={handleSearch} />
+          <ActionButtons handleSearch={handleSearch} handleApplyFilters={handleApplyFilters} />
         </Grid>
       </Box>
     </Box>
