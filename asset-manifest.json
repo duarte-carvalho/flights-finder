@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/flights-finder/static/css/main.af1edd3d.css",
-    "main.js": "/flights-finder/static/js/main.06e15d0e.js",
+    "main.js": "/flights-finder/static/js/main.3430224a.js",
     "static/js/453.9a33a081.chunk.js": "/flights-finder/static/js/453.9a33a081.chunk.js",
     "index.html": "/flights-finder/index.html",
     "main.af1edd3d.css.map": "/flights-finder/static/css/main.af1edd3d.css.map",
-    "main.06e15d0e.js.map": "/flights-finder/static/js/main.06e15d0e.js.map",
+    "main.3430224a.js.map": "/flights-finder/static/js/main.3430224a.js.map",
     "453.9a33a081.chunk.js.map": "/flights-finder/static/js/453.9a33a081.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.af1edd3d.css",
-    "static/js/main.06e15d0e.js"
+    "static/js/main.3430224a.js"
   ]
 }
