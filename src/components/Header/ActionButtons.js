@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Button, Grid, Dialog, DialogTitle, DialogContent, TextField, MenuItem, Slider, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Button, Grid, Dialog, DialogTitle, DialogContent, TextField, MenuItem, Slider, Typography, CircularProgress } from '@mui/material';
 
-const ActionButtons = ({ handleSearch, handleApplyFilters }) => {
+const ActionButtons = ({ handleSearch, handleApplyFilters, isLoading }) => {
   const [open, setOpen] = useState(false);
   const [maxPrice, setMaxPrice] = useState('');
   const [stops, setStops] = useState('');
@@ -24,8 +24,8 @@ const ActionButtons = ({ handleSearch, handleApplyFilters }) => {
   return (
     <>
       <Grid item xs={12} sm={12} md={2}>
-        <Button variant="contained" color="primary" fullWidth sx={{ marginRight: 1 }} onClick={handleSearch}>
-          Search
+        <Button variant="contained" color="primary" fullWidth sx={{ marginRight: 1 }} onClick={handleSearch} disabled={isLoading}>
+          {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Search'}
         </Button>
       </Grid>
       <Grid item xs={12} sm={12} md={2}>
@@ -53,9 +53,10 @@ const ActionButtons = ({ handleSearch, handleApplyFilters }) => {
             onChange={(e) => setStops(e.target.value)}
             sx={{ mb: 2 }}
           >
-            <MenuItem value="non_stop">Non-stop</MenuItem>
-            <MenuItem value="1_stop">1 Stop</MenuItem>
-            <MenuItem value="2+_stops">2+ Stops</MenuItem>
+            <MenuItem value="0">Any number of stops</MenuItem>
+            <MenuItem value="1">Non-stop</MenuItem>
+            <MenuItem value="2">1 Stop</MenuItem>
+            <MenuItem value="3">2+ Stops</MenuItem>
           </TextField>
           <Typography>Outbound Time Range</Typography>
           <Slider

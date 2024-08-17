@@ -32,7 +32,34 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.mesh-gradient-background {
+  background: radial-gradient(circle at 20% 20%, #ffffff, transparent 40%),
+    radial-gradient(circle at 80% 20%, #f3f8ff, transparent 40%),
+    radial-gradient(circle at 20% 80%, #e9f0fa, transparent 40%),
+    radial-gradient(circle at 80% 80%, #f0f4f8, transparent 40%),
+    radial-gradient(circle at 50% 50%, #e7edf3, transparent 50%);
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+
+.results-container {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  min-height: 200px;
+}
+
+.results-container.show {
+  opacity: 1;
+  transform: translateY(0);
 }

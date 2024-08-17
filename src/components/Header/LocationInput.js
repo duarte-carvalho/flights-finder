@@ -1,35 +1,14 @@
-// src/components/LocationInput.js
-import React, { useEffect, useState } from 'react';
 import { Autocomplete, TextField, CircularProgress, InputAdornment, createFilterOptions } from '@mui/material';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { fetchAirportsData } from '../../utils/airports';
 
 const filterOptions = createFilterOptions({
   matchFrom: 'any',
-  limit: 50, 
+  limit: 50,
   stringify: (option) => `${option.name} ${option.city} ${option.country} ${option.iata}`
 });
 
-const LocationInput = ({ label, value, onChange, isFrom }) => {
-  const [airports, setAirports] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const loadAirports = async () => {
-      try {
-        const data = await fetchAirportsData();
-        setAirports(data);
-      } catch (error) {
-        console.error('Error fetching airports data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadAirports();
-  }, []);
-
+const LocationInput = ({ label, value, onChange, airports, loading, isFrom }) => {
   return (
     <Autocomplete
       freeSolo
@@ -37,7 +16,7 @@ const LocationInput = ({ label, value, onChange, isFrom }) => {
       getOptionLabel={(option) => option.name ? `${option.name} (${option.iata})` : option}
       loading={loading}
       filterOptions={filterOptions}
-      onChange={(_, newValue) => { newValue && newValue.iata && typeof(newValue.iata) === "string" ? onChange(newValue.iata) : onChange('')}}
+      onChange={(_, newValue) => { newValue && newValue.iata && typeof (newValue.iata) === "string" ? onChange(newValue.iata) : onChange('') }}
       renderInput={(params) => (
         <TextField
           {...params}

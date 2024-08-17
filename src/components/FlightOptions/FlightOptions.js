@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import { Box, Typography, Card, CardContent, Grid, Avatar, Button, Collapse, Divider, Tabs, Tab } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, Card, CardContent, Grid, Avatar, Button, Collapse, Divider, Tabs, Tab, Tooltip } from '@mui/material';
 import { FlightLand, FlightTakeoff } from '@mui/icons-material';
 
 const truncateAirportName = (name, maxLength = 27) => {
   return name.length > maxLength ? name.substring(0, maxLength) + '...' : name;
 };
 
-const FlightOptions = ({ departureFlights, arrivalFlights }) => {
+const FlightOptions = ({ departureFlights, arrivalFlights, noResults }) => {
   const [expanded, setExpanded] = useState([]);
   const [tabValue, setTabValue] = useState(0);
+
+  useEffect(() => {
+    if (tabValue === 0 && !Array.isArray(departureFlights)) {
+      setTabValue(1);
+    } else if (tabValue === 1 && !Array.isArray(arrivalFlights)) {
+      setTabValue(0);
+    }
+  }, [departureFlights, arrivalFlights, tabValue]);
 
   const handleExpandClick = (index) => {
     setExpanded(prev => {
@@ -47,7 +55,7 @@ const FlightOptions = ({ departureFlights, arrivalFlights }) => {
                       </Typography>
                     </Grid>
                     <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      <FlightTakeoff sx={{ fontSize: 18 }} />
+                      {tabValue === 0 ? <FlightTakeoff sx={{ fontSize: 18 }} /> : <FlightLand sx={{ fontSize: 18 }} />}
                     </Grid>
                     <Grid item xs={4}>
                       <Typography variant="body1" component="div" noWrap>
@@ -81,7 +89,7 @@ const FlightOptions = ({ departureFlights, arrivalFlights }) => {
                       </Typography>
                     </Grid>
                     <Grid item xs={12} sx={{ textAlign: 'center', my: 2 }}>
-                      <FlightTakeoff sx={{ fontSize: 18 }} />
+                      {tabValue === 0 ? <FlightTakeoff sx={{ fontSize: 18 }} /> : <FlightLand sx={{ fontSize: 18 }} />}
                     </Grid>
                     <Grid item xs={12} sx={{ mb: 2 }}>
                       <Typography variant="body1" component="div" noWrap>
@@ -155,17 +163,30 @@ const FlightOptions = ({ departureFlights, arrivalFlights }) => {
           </Collapse>
           <Box sx={{ position: 'absolute', bottom: 16, right: 16 }}>
             <Typography variant="h6" color="primary">
-              €{result.price}
+              {result.price ? '€' + result.price : 'Price unavailable'}
             </Typography>
           </Box>
         </CardContent>
       </Card>
     ))
   );
-  
+
+  const renderTab = (label, flights) => {
+    if (typeof flights === 'string') {
+      return (
+        <Tooltip title={flights} arrow>
+          <span>
+            <Tab label={label} disabled />
+          </span>
+        </Tooltip>
+      );
+    }
+    return <Tab label={label} />;
+  };
+
   return (
     <Box>
-      {(departureFlights.length > 0 || arrivalFlights.length > 0) && (
+      {(departureFlights.length > 0 || arrivalFlights.length > 0) && !noResults && (
         <>
           <Tabs
             value={tabValue}
@@ -174,11 +195,11 @@ const FlightOptions = ({ departureFlights, arrivalFlights }) => {
             textColor="primary"
             sx={{ marginBottom: 4 }}
           >
-            <Tab label="Departure Flights" />
-            <Tab label="Arrival Flights" />
+            {renderTab("Departure Flights", departureFlights)}
+            {renderTab("Arrival Flights", arrivalFlights)}
           </Tabs>
-          {tabValue === 0 && renderFlights(departureFlights)}
-          {tabValue === 1 && renderFlights(arrivalFlights)}
+          {tabValue === 0 && Array.isArray(departureFlights) && renderFlights(departureFlights)}
+          {tabValue === 1 && Array.isArray(arrivalFlights) && renderFlights(arrivalFlights)}
         </>
       )}
     </Box>
