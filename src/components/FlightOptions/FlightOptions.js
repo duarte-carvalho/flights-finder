@@ -78,11 +78,11 @@ const FlightOptions = ({ departureFlights, arrivalFlights, noResults }) => {
                   {/* Vertical layout for xs, sm, md, lg (logos removed and layovers hidden in main view) */}
                   <Grid container spacing={2} sx={{ mb: 2, display: { xs: 'block', xl: 'none' } }}>
                     <Grid item xs={12} sx={{ mb: 2 }}>
-                      <Typography variant="body1" component="div" noWrap>
+                      <Typography variant="body1" component="div">
                         <Box fontWeight="fontWeightBold" display="inline">
                           {new Date(flight.departure_airport.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </Box>{' '} - {' '}
-                        <Box component="span" sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'bottom' }}>
+                        <Box component="span" sx={{ verticalAlign: 'bottom' }}>
                           {truncateAirportName(flight.departure_airport.name)}
                         </Box>
                         {' '}({flight.departure_airport.id})
@@ -92,11 +92,11 @@ const FlightOptions = ({ departureFlights, arrivalFlights, noResults }) => {
                       {tabValue === 0 ? <FlightTakeoff sx={{ fontSize: 18 }} /> : <FlightLand sx={{ fontSize: 18 }} />}
                     </Grid>
                     <Grid item xs={12} sx={{ mb: 2 }}>
-                      <Typography variant="body1" component="div" noWrap>
+                      <Typography variant="body1" component="div">
                         <Box fontWeight="fontWeightBold" display="inline">
                           {new Date(flight.arrival_airport.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </Box>{' '} - {' '}
-                        <Box component="span" sx={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', display: 'inline-block', verticalAlign: 'bottom' }}>
+                        <Box component="span" sx={{ verticalAlign: 'bottom' }}>
                           {truncateAirportName(flight.arrival_airport.name)}
                         </Box>
                         {' '}({flight.arrival_airport.id})
