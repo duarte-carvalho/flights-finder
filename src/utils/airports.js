@@ -2,7 +2,7 @@ import Papa from 'papaparse';
 
 export const fetchAirportsData = async () => {
   try {
-    const response = await fetch('/data/airports.csv');
+    const response = await fetch('/flights-finder/data/airports.csv');
     const csvText = await response.text();
     return new Promise((resolve, reject) => {
       Papa.parse(csvText, {
