@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, Card, CardContent, Grid, Avatar, Button, Collapse, Divider, Tabs, Tab, Tooltip } from '@mui/material';
 import { FlightLand, FlightTakeoff } from '@mui/icons-material';
 
-const truncateAirportName = (name, maxLength = 27) => {
+const truncateAirportName = (name, maxLength = 25) => {
   return name.length > maxLength ? name.substring(0, maxLength) + '...' : name;
 };
 
@@ -39,7 +39,7 @@ const FlightOptions = ({ departureFlights, arrivalFlights, noResults }) => {
               {result.flights.map((flight, idx) => (
                 <React.Fragment key={idx}>
                   {/* Horizontal layout for xl and above */}
-                  <Grid container spacing={2} alignItems="center" textAlign={'left'} sx={{ mb: 2, display: { xs: 'none', xl: 'flex' } }}>
+                  <Grid container spacing={2} alignItems="center" textAlign={'left'} sx={{ mb: 2, display: { xs: 'none', lg: 'flex' } }}>
                     <Grid item xs={1} sx={{ textAlign: 'center' }}>
                       <Avatar alt={flight.airline} src={flight.airline_logo} sx={{ width: 40, height: 40, margin: 'auto' }} />
                     </Grid>
@@ -76,7 +76,7 @@ const FlightOptions = ({ departureFlights, arrivalFlights, noResults }) => {
                   </Grid>
 
                   {/* Vertical layout for xs, sm, md, lg (logos removed and layovers hidden in main view) */}
-                  <Grid container spacing={2} sx={{ mb: 2, display: { xs: 'block', xl: 'none' } }}>
+                  <Grid container spacing={2} sx={{ mb: 2, display: { xs: 'block', lg: 'none' } }}>
                     <Grid item xs={12} sx={{ mb: 2 }}>
                       <Typography variant="body1" component="div">
                         <Box fontWeight="fontWeightBold" display="inline">
@@ -112,7 +112,7 @@ const FlightOptions = ({ departureFlights, arrivalFlights, noResults }) => {
 
                   {/* Layovers will only be displayed in xl and above in the main view */}
                   {idx < result.flights.length - 1 && result.layovers[idx] && (
-                    <Grid item xs={12} sx={{ mt: 4, mb: 4, display: { xs: 'none', xl: 'block' } }}>
+                    <Grid item xs={12} sx={{ mt: 4, mb: 4, display: { xs: 'none', lg: 'block' } }}>
                       <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', mt: 2 }}>
                         Layover: {result.layovers[idx]?.name} ({result.layovers[idx]?.duration} min)
                       </Typography>
